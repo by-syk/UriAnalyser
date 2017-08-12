@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
     }
 
-    public void onChooseImg(View view) {
+    public void onChooseFile(View view) {
         if (!checkPermissions()) {
             return;
         }
