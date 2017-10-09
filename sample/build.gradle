@@ -2,14 +2,14 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "com.by_syk.urianalyser.sample"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17080500
-        versionName "1.0.4"
+        versionCode 17100900
+        versionName "1.0.5"
     }
 
     buildTypes {

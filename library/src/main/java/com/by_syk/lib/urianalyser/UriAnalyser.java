@@ -68,6 +68,7 @@ public class UriAnalyser {
      * @param isLightBg If true, the text is showing on light background, or on dark background.
      * @return The raw path with highlight color.
      */
+    @Deprecated
     public static SpannableStringBuilder getRawPathHighlighted(Uri uri, boolean isLightBg) {
         SpannableStringBuilder ssb = new SpannableStringBuilder();
         String uriPath = getRawPath(uri);
@@ -114,6 +115,7 @@ public class UriAnalyser {
      * @param uri The file uri.
      * @return The raw path with highlight color.
      */
+    @Deprecated
     public static SpannableStringBuilder getRawPathHighlighted(Uri uri) {
         return getRawPathHighlighted(uri, false);
     }
@@ -156,17 +158,18 @@ public class UriAnalyser {
      *
      * @param context The context to use.
      * @param uri The file uri.
+     * @param tmpCopyFile The target temp file. If null, the default is used.
      * @return The accessible file.
      *
      * <p>Requires Permission: {@link android.Manifest.permission#WRITE_EXTERNAL_STORAGE}
      */
-    public static File getAccessibleFile(Context context, Uri uri) {
+    public static File getRealFileAccessible(Context context, Uri uri, File tmpCopyFile) {
         String path = getRealPath(context, uri);
         if (path != null && (new File(path)).exists()) {
             return new File(path);
         }
 
-        return extractFile(context, uri, null);
+        return extractFile(context, uri, tmpCopyFile);
     }
 
     @TargetApi(19)
@@ -424,7 +427,7 @@ public class UriAnalyser {
      * to get the InputStream from that URI.
      */
     @TargetApi(8)
-    private static File extractFile(Context context, Uri uri, File file) {
+    private static File extractFile(Context context, Uri uri, File targetFile) {
         if (uri == null) {
             return null;
         }
@@ -432,25 +435,25 @@ public class UriAnalyser {
         boolean isOk = false;
 
         /*String fileName;
-        if (file == null) {
+        if (targetFile == null) {
             fileName = uri.getLastPathSegment();
         } else {
-            fileName = file.getName();
+            fileName = targetFile.getName();
         }
 
         File tempFile = new File(C.SDK >= 8 ? context.getExternalCacheDir()
                 : Environment.getDownloadCacheDirectory(),
                 TextUtils.isEmpty(fileName) ? "temp" : fileName);*/
 
-        if (file == null) {
-            file = new File(C.SDK >= 8 ? context.getExternalCacheDir()
+        if (targetFile == null) {
+            targetFile = new File(C.SDK >= 8 ? context.getExternalCacheDir()
                     : Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "temp");
         }
 
         InputStream inputStream = null;
         try {
             inputStream = context.getContentResolver().openInputStream(uri);
-            isOk = ExtraUtil.copyFile(inputStream, file);
+            isOk = ExtraUtil.copyFile(inputStream, targetFile);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } finally {
@@ -463,7 +466,7 @@ public class UriAnalyser {
             }
         }
 
-        return isOk ? file : null;
+        return isOk ? targetFile : null;
     }
 
     /*/**
