@@ -1,7 +1,7 @@
 # UriAnalyser
 
 [![](https://jitpack.io/v/by-syk/UriAnalyser.svg)](https://jitpack.io/#by-syk/UriAnalyser)
-[![](https://img.shields.io/badge/Download%20aar-1.0.4-brightgreen.svg)](out/urianalyser-1.0.5.aar)
+[![](https://img.shields.io/badge/Download%20aar-1.0.5-brightgreen.svg)](out/urianalyser-1.0.5.aar)
 
 Get real file path from file `Uri`.
 
